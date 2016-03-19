@@ -1,9 +1,33 @@
 var express = require('express');
 var app = express();
 
-app.get('/:text', function (req, res) {
+var posts = [];
+
+app.get('/post/:text', function (req, res) {
     console.log(req.params.text);
-    res.send('Hello World!');
+    for(var i in posts){
+        if(posts[i].value == req.params.text){
+            posts[i].count++;
+            res.send('++');
+            return;
+        }
+    }
+
+    posts.push({
+        count: 1,
+        value: req.params.text
+    });
+
+    res.send('add');
+});
+
+app.get('/list', function (req, res) {
+    res.send(JSON.stringify(posts));
+});
+
+app.get('/clear', function(req, res){
+    posts = [];
+    res.send('clear');
 });
 
 app.listen(3000, function () {
