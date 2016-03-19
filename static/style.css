@@ -1,0 +1,29 @@
+body{
+    font-family: arial;
+    color: white;
+}
+
+#content{
+    width: 200px;
+}
+
+.request {
+    background-color: #0E51A7;
+    padding: 10px;
+    margin: 5px;
+}
+
+.request > .value {
+
+}
+
+.request > .count {
+    margin-top: -2px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 10px;
+    background-color: #4281D3;
+    float: right;
+}

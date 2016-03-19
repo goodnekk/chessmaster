@@ -3,6 +3,8 @@ var app = express();
 
 var posts = [];
 
+app.use(express.static('static'));
+
 app.get('/post/:text', function (req, res) {
     console.log(req.params.text);
     for(var i in posts){
