@@ -17,7 +17,7 @@ app.get('/post/:text', function (req, res) {
 
     posts.push({
         count: 1,
-        value: req.params.text
+        value: req.params.text.toUpperCase()
     });
 
     res.send('add');

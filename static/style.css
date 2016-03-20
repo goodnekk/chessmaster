@@ -1,13 +1,27 @@
 body{
     font-family: arial;
-    color: white;
 }
 
+input {
+    font-size: 20pt;
+    border: none;
+}
 #content{
-    width: 200px;
+    width: 15%;
+    float: left;
+}
+
+#title {
+    font-size: 24pt;
+}
+
+video{
+    width: 85%;
+    float: left;
 }
 
 .request {
+    color: white;
     background-color: #0E51A7;
     padding: 10px;
     margin: 5px;

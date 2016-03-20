@@ -1,9 +1,25 @@
 var chess = (function(){
 
+    var turnlength = 60;
     var requests = m.prop([]);
+    var timer = m.prop(turnlength);
+    var go = m.prop("white");
+    var lastmove = m.prop("");
 
     function getRequests(){
         return requests;
+    }
+
+    function getTimer(){
+        return timer;
+    }
+
+    function getGo(){
+        return go;
+    }
+
+    function getLastMove(){
+        return lastmove;
     }
 
     window.setInterval(function(){
@@ -20,11 +36,30 @@ var chess = (function(){
                     return 0;
                 })
             }
-        ).then(requests);
-    }, 500);
+        ).then(function(array){
+            if(array.length > 0){
+                timer(timer()-1);
+                if(timer() == 0){
+                    lastmove(requests()[0].value);
+                    timer(turnlength);
+                    if(go()==="white"){
+                        go("black");
+                    } else {
+                        go("white");
+                    }
+
+                    m.request({method: "GET", url: "/clear"});
+                }
+            }
+            return array;
+        }).then(requests);
+    }, 1000);
 
     return {
-        getRequests: getRequests
+        getRequests: getRequests,
+        getTimer: getTimer,
+        getGo: getGo,
+        getLastMove: getLastMove
     };
 })();
 
@@ -32,14 +67,23 @@ var chess = (function(){
 var RequestList = {
     controller: function(){
         this.requests = chess.getRequests();
+        this.timer = chess.getTimer();
+        this.go = chess.getGo();
+        this.lastmove = chess.getLastMove();
     },
     view: function(ctrl){
-        return ctrl.requests().map(function(data){
-            return m("div", {class:"request"},[
-                m("span", {class:"value"}, data.value),
-                m("span", {class:"count"}, data.count)
-            ]);
-        });
+        return m("div", [
+            m("div", "turn: "+ctrl.go()),
+            m("div", "last played move: "+ctrl.lastmove()),
+            m("div", "timer: "+ctrl.timer()),
+            ctrl.requests().map(function(data){
+                return m("div", {class:"request"},[
+                    m("span", {class:"value"}, data.value),
+                    m("span", {class:"count"}, data.count)
+                ]);
+            })
+        ]);
+
     }
 };
 
