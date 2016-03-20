@@ -1,6 +1,6 @@
 var chess = (function(){
 
-    var turnlength = 5;
+    var turnlength = 30;
     var requests = m.prop([]);
     var timer = m.prop(turnlength);
     var go = m.prop("White");
@@ -40,7 +40,7 @@ var chess = (function(){
                 timer(timer()-1);
                 if(timer() == 0){
                     console.log("hello?");
-                    lastmoves([go()+": "+requests()[0].value].concat(lastmoves()));   
+                    lastmoves([go()+": "+requests()[0].value].concat(lastmoves()));
                     timer(turnlength);
                     if(go()==="White"){
                         go("Black");
@@ -73,7 +73,7 @@ var RequestList = {
     view: function(ctrl){
         return m("div", [
             m("h4", "turn: "+ctrl.go()),
-            m("div", (ctrl.timer()<60) ? "next move in: "+ctrl.timer() : "waiting for votes"),
+            m("div", (ctrl.timer()<30) ? "next move in: "+ctrl.timer() : "waiting for votes"),
 
             m("h2", "Last moves: "),
             m("div", ctrl.lastmoves().map(function(move){
