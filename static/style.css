@@ -1,4 +1,4 @@
-body{
+body {
     font-family: arial;
 }
 
@@ -6,17 +6,18 @@ input {
     font-size: 20pt;
     border: none;
 }
-#content{
+#content {
     width: 15%;
     float: left;
+    padding-left: 20px;
 }
 
 #title {
     font-size: 24pt;
 }
 
-video{
-    width: 85%;
+video {
+    width: 80%;
     float: left;
 }
 

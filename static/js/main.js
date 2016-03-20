@@ -1,10 +1,10 @@
 var chess = (function(){
 
-    var turnlength = 60;
+    var turnlength = 5;
     var requests = m.prop([]);
     var timer = m.prop(turnlength);
-    var go = m.prop("white");
-    var lastmove = m.prop("");
+    var go = m.prop("White");
+    var lastmoves = m.prop([]);
 
     function getRequests(){
         return requests;
@@ -19,11 +19,10 @@ var chess = (function(){
     }
 
     function getLastMove(){
-        return lastmove;
+        return lastmoves;
     }
 
     window.setInterval(function(){
-        console.log("then");
         m.request({method: "GET", url: "/list"}).then(
             function(array){
                 return array.sort(function(a,b){
@@ -34,18 +33,19 @@ var chess = (function(){
                         return -1;
                     }
                     return 0;
-                })
+                });
             }
         ).then(function(array){
             if(array.length > 0){
                 timer(timer()-1);
                 if(timer() == 0){
-                    lastmove(requests()[0].value);
+                    console.log("hello?");
+                    lastmoves([go()+": "+requests()[0].value].concat(lastmoves()));   
                     timer(turnlength);
-                    if(go()==="white"){
-                        go("black");
+                    if(go()==="White"){
+                        go("Black");
                     } else {
-                        go("white");
+                        go("White");
                     }
 
                     m.request({method: "GET", url: "/clear"});
@@ -63,19 +63,25 @@ var chess = (function(){
     };
 })();
 
-
 var RequestList = {
     controller: function(){
         this.requests = chess.getRequests();
         this.timer = chess.getTimer();
         this.go = chess.getGo();
-        this.lastmove = chess.getLastMove();
+        this.lastmoves = chess.getLastMove();
     },
     view: function(ctrl){
         return m("div", [
-            m("div", "turn: "+ctrl.go()),
-            m("div", "last played move: "+ctrl.lastmove()),
-            m("div", "timer: "+ctrl.timer()),
+            m("h4", "turn: "+ctrl.go()),
+            m("div", (ctrl.timer()<60) ? "next move in: "+ctrl.timer() : "waiting for votes"),
+
+            m("h2", "Last moves: "),
+            m("div", ctrl.lastmoves().map(function(move){
+                return m("div", {class:"request"}, m("span", {class:"value"}, move));
+            })),
+
+            m("h2", "Current move: "),
+
             ctrl.requests().map(function(data){
                 return m("div", {class:"request"},[
                     m("span", {class:"value"}, data.value),
@@ -83,7 +89,6 @@ var RequestList = {
                 ]);
             })
         ]);
-
     }
 };
 
