@@ -3,12 +3,44 @@ var app = express();
 
 var posts = [];
 
+var validLetters = /[ABCDEFGH]/;
+var validNumbers = /[12345678]/;
+
+
 app.use(express.static('static'));
 
 app.get('/post/:text', function (req, res) {
-    console.log(req.params.text);
+    var value = req.params.text.toUpperCase();
+
+
+    var firstLetter = value[0];
+    var firstNumber = value[1];
+    var secondLetter = value[3];
+    var secondNumber = value[4];
+
+    if(firstLetter.search(validLetters)!==0) {
+        res.send('fail');
+        return;
+    }
+    if(firstNumber.search(validNumbers)!==0) {
+        res.send('fail');
+        return;
+    }
+
+    if(secondLetter.search(validLetters)!==0) {
+        res.send('fail');
+        return;
+    }
+
+    if(secondNumber.search(validNumbers)!==0) {
+        res.send('fail');
+        return;
+    }
+
+    value = firstLetter + firstNumber + " " + secondLetter + secondNumber;
+
     for(var i in posts){
-        if(posts[i].value == req.params.text){
+        if(posts[i].value == value){
             posts[i].count++;
             res.send('++');
             return;

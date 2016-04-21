@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Open311 webclient</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+        <script src="//cdnjs.cloudflare.com/ajax/libs/mithril/0.2.3/mithril.min.js"></script>
+
+        <link rel="stylesheet" href="style.css" charset="utf-8">
+    </head>
+    <body>
+        <div id="menu">
+            <span id="title">Ga naar www.livingcity.wolkenmachine.nl, of SMS jouw zet naar: 0626396353</span>
+        </div>
+        <div id="vid">
+            <video autoplay="true" id="videoElement"></video>
+        </div>
+        <div id="content"></div>
+
+        <script src="js/main.js" charset="utf-8"></script>
+        <script type="text/javascript">
+            var video = document.querySelector("#videoElement");
+
+            navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
+
+            if (navigator.getUserMedia) {
+                navigator.getUserMedia({video: true}, handleVideo, videoError);
+            }
+
+            function handleVideo(stream) {
+                video.src = window.URL.createObjectURL(stream);
+            }
+
+            function videoError(e) {
+            // do something
+            }
+        </script>
+    </body>
+</html>

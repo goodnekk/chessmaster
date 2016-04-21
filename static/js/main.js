@@ -1,6 +1,6 @@
 var chess = (function(){
 
-    var turnlength = 30;
+    var turnlength = 60;
     var requests = m.prop([]);
     var timer = m.prop(turnlength);
     var go = m.prop("White");
