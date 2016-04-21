@@ -42,7 +42,7 @@ app.get('/post/:text', function (req, res) {
     for(var i in posts){
         if(posts[i].value == value){
             posts[i].count++;
-            res.send('++');
+            res.send('add');
             return;
         }
     }

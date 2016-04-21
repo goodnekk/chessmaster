@@ -72,7 +72,7 @@ var RequestList = {
     view: function(ctrl){
         return m("div", [
             m("h4", "zet: "+ctrl.go()),
-            m("div", (ctrl.timer()<30) ? "volgende zet in: "+ctrl.timer() : "stuur jouw zet!"),
+            m("div", (ctrl.timer()<60) ? "volgende zet in: "+ctrl.timer() : "stuur jouw zet!"),
 
             m("h2", "Laatste zetten: "),
             m("div", ctrl.lastmoves().map(function(move){
