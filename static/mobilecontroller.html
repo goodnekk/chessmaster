@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>living city controller</title>
+
+        <script src="//cdnjs.cloudflare.com/ajax/libs/mithril/0.2.3/mithril.min.js"></script>
+
+        <link rel="stylesheet" href="style.css" charset="utf-8">
+    </head>
+    <body>
+        <div id="content"></div>
+
+        <script type="text/javascript">
+            var chess = (function(){
+
+                var requests = m.prop([]);
+
+                function getRequests(){
+                    return requests;
+                }
+
+                function drop(id){
+                    m.request({method: "GET", url: "/drop/"+id});
+                }
+
+                function nextround(){
+                    m.request({method: "GET", url: "/round"});
+                }
+
+                function timersize(s){
+                    m.request({method: "GET", url: "/timersize/"+s});
+                }
+
+                window.setInterval(function(){
+                    m.request({method: "GET", url: "/list"}).then(requests);
+                }, 1000);
+
+                return {
+                    getRequests: getRequests,
+                    drop: drop,
+                    nextround: nextround,
+                    timersize: timersize
+                };
+            })();
+
+            var RequestList = {
+                controller: function(){
+                    this.requests = chess.getRequests();
+                    this.remove = function(id){
+                        chess.drop(id);
+                    }
+                    this.nextround = function(){
+                        chess.nextround();
+                    }
+
+                    this.timersize = function(e){
+                        chess.timersize(e.target.value);
+                    }
+                },
+                view: function(ctrl){
+                    console.log(ctrl.requests());
+                    return m("div", [
+                        m("h1", {class: 'beurt'},ctrl.requests().move +" "+ ctrl.requests().timer+"s"),
+                        m("button", {onclick: ctrl.nextround.bind(ctrl)}, "Next round"),
+                        //m("input", {value: ctrl.requests().timerSize, type: "number", onchange: ctrl.timersize.bind(ctrl)}),
+
+                        m("h2", "Laatste zetten: "),
+                        m("div", ctrl.requests().lastmoves.reverse().slice(0,5).map(function(move){
+                            return m("div", {class:"request"}, m("span", {class:"value"}, move.move+": "+move.post.value));
+                        })),
+
+                        m("h2", "Volgende zet: "),
+
+                        ctrl.requests().posts.map(function(data, pos){
+                            return m("div", {
+                                class:"request",
+                                onclick: function(){
+
+                                    ctrl.remove(pos).bind(ctrl);
+                                }},[
+                                m("span", {class:"value"}, data.value),
+                                m("span", {class:"count"}, data.count)
+                            ]);
+                        })
+                    ]);
+                }
+            };
+
+            m.module(document.getElementById("content"), RequestList);
+        </script>
+    </body>
+</html>

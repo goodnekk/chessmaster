@@ -1,19 +1,25 @@
 body {
     font-family: arial;
+    margin: 0px;
 }
 
-input {
-    font-size: 20pt;
+input[type="text"] {
+    font-size: 24pt;
     border: none;
+    width: 2000px;
+    background: rgba(255, 0, 0, 0);
 }
+
+#menu {
+    position: absolute;
+    //margin-left: 10px;
+    z-index: 1000;
+}
+
 #content {
     width: 15%;
     float: left;
     padding-left: 20px;
-}
-
-#title {
-    font-size: 24pt;
 }
 
 video {
@@ -21,11 +27,24 @@ video {
     float: left;
 }
 
+.label {
+    color: 'light grey';
+    font-size: 10pt;
+    margin-top:20px;
+    margin-bottom: 0px;
+}
+
+.beurt {
+    font-size: 30pt;
+}
+
 .request {
     color: white;
     background-color: #0E51A7;
     padding: 10px;
     margin: 5px;
+
+    font-size: 14pt;
 }
 
 .request > .value {
