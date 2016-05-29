@@ -3,17 +3,14 @@ body {
     margin: 0px;
 }
 
-input[type="text"] {
-    font-size: 24pt;
-    border: none;
-    width: 2000px;
-    background: rgba(255, 0, 0, 0);
-}
-
 #menu {
     position: absolute;
-    //margin-left: 10px;
     z-index: 1000;
+    font-size: 28pt;
+    border: none;
+    color: white;
+    text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+    padding: 5px;
 }
 
 #content {
